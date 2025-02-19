@@ -1,0 +1,10 @@
+{
+  "name": "short menu",
+  "description": "Simple menu to my app.",
+  "uuid": "shortmenu@alamabd",
+  "shell-version": [
+    "46"
+  ],
+  "gettext-domain": "shortmenu@alamabd",
+  "settings-schema": "org.gnome.shell.extensions.shortmenu"
+}

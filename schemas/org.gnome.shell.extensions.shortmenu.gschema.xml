@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.shortmenu" path="/org/gnome/shell/extensions/shortmenu/">
+    <key name="show-indicator" type="b">
+      <default>true</default>
+    </key>
+    <key name="project-name" type="s">
+      <default>"Project 😍"</default>
+    </key>
+  </schema>
+</schemalist>
