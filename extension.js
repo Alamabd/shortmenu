@@ -18,7 +18,7 @@
 
 import GObject from 'gi://GObject'
 import St from 'gi://St'
-import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib'
 import Gio from 'gi://Gio'
 
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
@@ -29,16 +29,20 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 
 const cmds = [
     {
-        name: "kurumi",
-        cmd: ""
+        name: "kurumi 😍",
+        cmd: "bash kurumi.sh"
     },
     {
-        name: "Pcsx2",
-        cmd: ""
+        name: "Pcsx2 🕹️",
+        cmd: "/opt/pcsx2/pcsx2-v2.2.0-linux-appimage-x64-Qt.AppImage"
     },
     {
-        name: "Yt Downloader",
-        cmd: ""
+        name: "Yt Downloader 🗃️",
+        cmd: "/opt/ytdownloader/YTDownloader_Linux.AppImage  --no-sandbox"
+    },
+    {
+        name: "Godot 🎮",
+        cmd: "/opt/godot/Godot_v4.3-stable_linux.x86_64"
     }
 ]
 
@@ -61,32 +65,14 @@ class Indicator extends PanelMenu.Button {
         // this.header.actor.add_child(title)
         // this.header.setSensitive(false)
 
-        const menuItem = new PopupMenu.PopupMenuItem('Item Label', {
-            // active: false,
-            can_focus: true,
-            hover: true,
-            reactive: true,
-            style_class: 'my-menu-item',
-        });
         
-        // Adding an ornament
-        menuItem.setOrnament(PopupMenu.Ornament.CHECK);
-
-        // Disabling the item (active property will no longer change)
-        menuItem.sensitive = false;
-
-        // Watching the `activate` signal
-        menuItem.connect('activate', (item, event) => {
-            // Do something special for pointer buttons
-            if (event.get_type() === Clutter.EventType.BUTTON_PRESS)
-                console.log('Pointer was pressed!');
-
-            return Clutter.EVENT_PROPAGATE;
-        });
-        this.menu.addMenuItem(menuItem)
-
         cmds.forEach((val) => {
-            this.menu.addMenuItem(new PopupMenu.PopupMenuItem(val.name))
+            let menuItem = new PopupMenu.PopupMenuItem(val.name)
+            menuItem.connect('activate', () => {
+                Main.notify("Go project 😍", `Open ${val.name} app`)
+                GLib.spawn_command_line_async(val.cmd)
+            })
+            this.menu.addMenuItem(menuItem)
         })
     }
 })
@@ -98,14 +84,14 @@ export default class IndicatorExampleExtension extends Extension {
 
 
         // !!!!!-----prefs is still in the learning stage
-        this._settings = this.getSettings();
+        this._settings = this.getSettings()
         this._settings.bind('show-indicator', this._indicator, 'visible',
-            Gio.SettingsBindFlags.DEFAULT);
+            Gio.SettingsBindFlags.DEFAULT)
 
         // Watch for changes to a specific setting
         this._settings.connect('changed::show-indicator', (settings, key) => {
-            console.log(`${key} = ${settings.get_value(key).print(true)}`);
-        });
+            console.log(`${key} = ${settings.get_value(key).print(true)}`)
+        })
     }
 
     disable() {
